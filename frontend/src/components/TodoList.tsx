@@ -1,4 +1,4 @@
-import TodoItem from './TodoItem';
+import TodoItem from '@/components/TodoItem';
 
 interface Todo {
   id: number;
@@ -16,29 +16,23 @@ interface Props {
 export default function TodoList({ todos, onToggle, onDelete }: Props) {
   if (todos.length === 0) {
     return (
-      <div style={{
-        padding: '40px 20px',
-        textAlign: 'center',
-        fontFamily: "'Courier Prime', monospace",
-        fontSize: '13px',
-        fontStyle: 'italic',
-        color: 'var(--ink-faint)',
-        letterSpacing: '0.05em',
-      }}>
-        — no entries yet —
+      <div className="px-5 py-14 text-center">
+        <p className="font-display text-lg font-light italic text-muted-foreground tracking-wide">
+          — no entries yet —
+        </p>
       </div>
     );
   }
 
   return (
-    <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+    <ul className="list-none p-0 m-0">
       {todos.map((todo, i) => (
         <TodoItem
           key={todo.id}
           todo={todo}
           onToggle={onToggle}
           onDelete={onDelete}
-          style={{ animationDelay: `${i * 30}ms` } as React.CSSProperties}
+          style={{ animationDelay: `${i * 40}ms` }}
         />
       ))}
     </ul>

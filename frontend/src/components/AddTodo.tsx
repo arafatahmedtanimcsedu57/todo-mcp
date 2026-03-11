@@ -1,4 +1,8 @@
 import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Separator } from '@/components/ui/separator';
+import { DatePicker } from '@/components/ui/date-picker';
 
 interface Props {
   onAdd: (title: string, due_date: string | null) => void;
@@ -6,112 +10,51 @@ interface Props {
 
 export default function AddTodo({ onAdd }: Props) {
   const [title, setTitle] = useState('');
-  const [dueDate, setDueDate] = useState('');
+  const [dueDate, setDueDate] = useState<Date | undefined>();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const trimmed = title.trim();
     if (!trimmed) return;
-    onAdd(trimmed, dueDate ? new Date(dueDate).toISOString() : null);
+    onAdd(trimmed, dueDate ? dueDate.toISOString() : null);
     setTitle('');
-    setDueDate('');
+    setDueDate(undefined);
   };
 
   return (
     <form onSubmit={handleSubmit}>
       {/* Title row */}
-      <div style={{
-        display: 'flex', alignItems: 'center', gap: '12px',
-        padding: '10px 20px 10px 20px',
-        borderBottom: '1px solid var(--rule)',
-        position: 'relative',
-      }}>
-        <div style={{ width: '24px', flexShrink: 0 }} /> {/* margin spacer */}
-        <input
+      <div className="flex items-center gap-3 px-5 py-4">
+        <Input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="New entry..."
-          style={{
-            flex: 1,
-            background: 'transparent',
-            border: 'none',
-            outline: 'none',
-            fontFamily: "'Courier Prime', monospace",
-            fontSize: '15px',
-            color: 'var(--ink)',
-            lineHeight: '1.5',
-          }}
+          placeholder="What needs doing?"
+          className="flex-1 border-0 bg-transparent px-0 text-sm text-foreground placeholder:text-muted-foreground shadow-none focus-visible:ring-0"
         />
-        <button
+        <Button
           type="submit"
-          style={{
-            background: 'var(--ink)',
-            color: 'var(--paper)',
-            border: 'none',
-            fontFamily: "'Courier Prime', monospace",
-            fontSize: '12px',
-            fontWeight: 700,
-            letterSpacing: '0.12em',
-            textTransform: 'uppercase',
-            padding: '5px 14px',
-            cursor: 'pointer',
-            borderRadius: '1px',
-            transition: 'opacity 0.15s',
-            flexShrink: 0,
-          }}
-          onMouseEnter={e => (e.currentTarget.style.opacity = '0.75')}
-          onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+          size="sm"
+          className="shrink-0 bg-gold text-background font-bold text-[11px] tracking-[0.12em] uppercase hover:bg-gold-hover"
         >
           Add
-        </button>
+        </Button>
       </div>
 
+      <Separator />
+
       {/* Due date row */}
-      <div style={{
-        display: 'flex', alignItems: 'center', gap: '10px',
-        padding: '8px 20px 10px 68px',
-        borderBottom: '2px solid var(--rule)',
-      }}>
-        <span style={{
-          fontFamily: "'Courier Prime', monospace",
-          fontSize: '11px',
-          letterSpacing: '0.15em',
-          textTransform: 'uppercase',
-          color: 'var(--ink-faint)',
-        }}>
-          Due date
+      <div className="flex items-center gap-2.5 px-5 py-2.5">
+        <span className="text-[10px] font-medium tracking-[0.15em] uppercase text-muted-foreground">
+          Due
         </span>
-        <input
-          type="date"
+        <DatePicker
           value={dueDate}
-          onChange={(e) => setDueDate(e.target.value)}
-          style={{
-            background: 'transparent',
-            border: 'none',
-            borderBottom: '1px dashed var(--rule)',
-            outline: 'none',
-            fontFamily: "'Courier Prime', monospace",
-            fontSize: '12px',
-            color: dueDate ? 'var(--blue)' : 'var(--ink-faint)',
-            padding: '1px 4px',
-            cursor: 'pointer',
-          }}
+          onChange={setDueDate}
+          placeholder="Pick a date"
         />
-        {dueDate && (
-          <button
-            type="button"
-            onClick={() => setDueDate('')}
-            style={{
-              background: 'none', border: 'none',
-              fontFamily: "'Courier Prime', monospace",
-              fontSize: '11px', color: 'var(--ink-faint)',
-              cursor: 'pointer', letterSpacing: '0.05em',
-            }}
-          >
-            clear
-          </button>
-        )}
       </div>
+
+      <Separator />
     </form>
   );
 }
