@@ -1,0 +1,90 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap');
+
+:root {
+  --paper:      #F5F0E8;
+  --paper-card: #FEFCF7;
+  --ink:        #1C1814;
+  --ink-mid:    #5A4E40;
+  --ink-faint:  #A89880;
+  --rule:       #DDD6C8;
+  --margin:     #E8C4B8;
+  --red:        #B03030;
+  --green:      #2A6E42;
+  --blue:       #1B4F7A;
+  --yellow:     #8A6A10;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { height: 100%; }
+
+body {
+  min-height: 100%;
+  background-color: var(--paper);
+  font-family: 'Courier Prime', monospace;
+  color: var(--ink);
+  /* Subtle paper grain */
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+
+/* Custom checkbox */
+.task-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--ink-mid);
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+  transition: border-color 0.15s, background 0.15s;
+}
+.task-checkbox:checked {
+  background: var(--green);
+  border-color: var(--green);
+}
+.task-checkbox:checked::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 1px;
+  width: 6px;
+  height: 10px;
+  border: 2px solid white;
+  border-top: none;
+  border-left: none;
+  transform: rotate(40deg);
+}
+.task-checkbox:hover:not(:checked) {
+  border-color: var(--ink);
+}
+
+/* Stamp badge */
+.stamp {
+  display: inline-block;
+  font-family: 'Courier Prime', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border: 1.5px solid currentColor;
+  line-height: 1.6;
+  transform: rotate(-1.5deg);
+  white-space: nowrap;
+}
+.stamp-done    { color: var(--green); }
+.stamp-failed  { color: var(--red);   transform: rotate(1.5deg); }
+.stamp-due     { color: var(--blue);  transform: rotate(-0.8deg); }
+
+/* Animated entry */
+@keyframes slide-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.task-row {
+  animation: slide-in 0.2s ease-out both;
+}
