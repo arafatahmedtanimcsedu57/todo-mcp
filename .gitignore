@@ -25,6 +25,9 @@ Thumbs.db
 *.swp
 *.swo
 
+# Claude Code agents (project-local skills)
+.agents/
+
 # TypeScript
 *.tsbuildinfo
 
